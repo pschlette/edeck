@@ -2,8 +2,10 @@
 
 ## Build & Run ##
 
+* Install redis
+
 ```sh
-$ cd Edeck
+$ cd edeck
 $ ./sbt
 > jetty:start
 > browse
