@@ -1338,13 +1338,6 @@
   },
   {
     "set": "Dark Ages",
-    "description": "50 total, 10 of each type, shuffled into a pile of ten per opponent, like Curses",
-    "cost": "",
-    "cardType": "",
-    "name": "Ruins"
-  },
-  {
-    "set": "Dark Ages",
     "description": "One of each, all shuffled into one Kingdom pile",
     "cost": "",
     "cardType": "",
