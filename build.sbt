@@ -27,6 +27,7 @@ libraryDependencies ++= Seq(
   "org.eclipse.jetty" % "jetty-webapp" % "9.2.15.v20160210" % "container",
   "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
 
+  "org.json4s" %% "json4s-jackson" % "3.5.0",
   "net.debasishg" %% "redisclient" % "3.2"
 )
 
@@ -45,3 +46,7 @@ scalateTemplateConfig in Compile := {
 }
 
 enablePlugins(JettyPlugin)
+
+
+lazy val seedCards = taskKey[Unit]("Seeds card data in redis")
+fullRunTask(seedCards, Compile, "com.github.pschlette.edeck.KingdomCardSeeder")
