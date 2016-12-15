@@ -5,6 +5,8 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 import com.redis
 
+import com.github.pschlette.edeck.RedisHelpers.withNamespace
+
 // This might be useful in application code later.
 case class KingdomCard(name: String, cost: String, cardType: String, description: String, set: String)
 
@@ -28,7 +30,7 @@ object KingdomCardSeeder {
     // Serialize and insert each kingdom card into a list in redis
     // 6379 is redis' default port
     val r = new redis.RedisClient("localhost", 6379)
-    r.del("kingdomCards")
+    r.del(withNamespace("kingdomCards"))
     val safeKingdomCards = kingdomCards.getOrElse(List[KingdomCard]())
     for (card <- safeKingdomCards)
       r.rpush(KingdomCardsKey, write(card))
