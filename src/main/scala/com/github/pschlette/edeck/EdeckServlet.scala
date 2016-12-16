@@ -4,7 +4,7 @@ import java.util.UUID
 import com.redis.RedisClient
 import org.scalatra._
 
-import com.github.pschlette.edeck.RedisHelpers.createDeckKey
+import com.github.pschlette.edeck.RedisHelpers.deckTimestampKey
 
 class EdeckServlet extends EdeckStack {
 
@@ -32,7 +32,7 @@ class EdeckServlet extends EdeckStack {
     // archive all the really old decks...or something.
     val r = new RedisClient("localhost", 6379)
 
-    r.set(createDeckKey("creationTime", newDeckId), timestamp)
+    r.set(deckTimestampKey(newDeckId), timestamp)
 
     <p>You posted to /decks. Your new deck id would be {newDeckId} if that was a thing yet.</p>
   }
