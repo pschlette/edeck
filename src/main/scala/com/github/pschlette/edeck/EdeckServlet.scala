@@ -7,8 +7,7 @@ import org.scalatra._
 import com.github.pschlette.edeck.RedisHelpers.deckTimestampKey
 
 class EdeckServlet extends EdeckStack {
-
-  get("/") {
+  get("^/(decks)?$".r) {
     <html>
       <body>
         <h1>Hello, world!</h1>
