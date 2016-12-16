@@ -30,13 +30,15 @@ class EdeckServlet extends EdeckStack {
     // data), but we do want to keep track of when a deck was created in case some day we want to
     // archive all the really old decks...or something.
     val r = new RedisClient("localhost", 6379)
-
     r.set(deckTimestampKey(newDeckId), timestamp)
 
-    <p>You posted to /decks. Your new deck id would be {newDeckId} if that was a thing yet.</p>
+    redirect(s"/decks/${newDeckId}")
   }
 
   get("/decks/:id") {
-    <p>You're viewing the deck with id {params("id")} - or, you WOULD be, if that was a thing.</p>
+    val deckId = params("id")
+    val r = new RedisClient("localhost", 6379)
+    val timestamp = r.get(deckTimestampKey(deckId)).getOrElse(0)
+    <p>You're viewing the deck with id {deckId}. It was created at ${timestamp}.</p>
   }
 }
