@@ -1,12 +1,19 @@
 package com.github.pschlette.edeck
 
-import java.util.UUID
 import com.redis.RedisClient
+import java.util.UUID
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 import org.scalatra._
 
-import com.github.pschlette.edeck.RedisHelpers.deckTimestampKey
+import com.github.pschlette.edeck.RedisHelpers.{deckTimestampKey, deckProposedCardsKey, deckHistoryKey}
+
+case class DeckChangeRequest(cardName: String, user: String)
+case class HistoryItem(action: String, cardName: String, user: String, timestamp: Int)
 
 class EdeckServlet extends EdeckStack {
+  protected implicit lazy val formats = DefaultFormats
+
   get("^/(decks)?$".r) {
     <html>
       <body>
@@ -40,5 +47,18 @@ class EdeckServlet extends EdeckStack {
     val r = new RedisClient("localhost", 6379)
     val timestamp = r.get(deckTimestampKey(deckId)).getOrElse(0)
     <p>You're viewing the deck with id {deckId}. It was created at ${timestamp}.</p>
+  }
+  
+  post("/decks/:id/add") {
+    val parsedBody = parse(request.body)
+    val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
+    maybeChangeRequest.foreach(changeRequest => {
+      val r = new RedisClient("localhost", 6379)
+      val deckId = params("id")
+      r.sadd(deckProposedCardsKey(deckId), changeRequest.cardName)
+      println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}")
+    })
+
+    <p>K thx</p>
   }
 }
