@@ -50,11 +50,13 @@ class EdeckServlet extends EdeckStack {
   }
   
   post("/decks/:id/add") {
+    val deckId = params("id")
     val parsedBody = parse(request.body)
     val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
-    maybeChangeRequest.foreach(changeRequest => {
-      val r = new RedisClient("localhost", 6379)
-      val deckId = params("id")
+    val r = new RedisClient("localhost", 6379)
+
+    maybeChangeRequest.filter(cr => !r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(changeRequest => {
+      // add card to deck
       r.sadd(deckProposedCardsKey(deckId), changeRequest.cardName)
       println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}")
     })
