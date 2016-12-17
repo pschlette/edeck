@@ -4,12 +4,13 @@ import com.redis.RedisClient
 import java.util.UUID
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization.write
 import org.scalatra._
 
 import com.github.pschlette.edeck.RedisHelpers.{deckTimestampKey, deckProposedCardsKey, deckHistoryKey}
 
 case class DeckChangeRequest(cardName: String, user: String)
-case class HistoryItem(action: String, cardName: String, user: String, timestamp: Int)
+case class HistoryItem(action: String, cardName: String, user: String, timestamp: Long, random: Boolean)
 
 class EdeckServlet extends EdeckStack {
   protected implicit lazy val formats = DefaultFormats
@@ -58,6 +59,12 @@ class EdeckServlet extends EdeckStack {
     maybeChangeRequest.filter(cr => !r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(changeRequest => {
       // add card to deck
       r.sadd(deckProposedCardsKey(deckId), changeRequest.cardName)
+
+      // add history entry
+      val historyItem = HistoryItem("add", changeRequest.cardName, changeRequest.user, System.currentTimeMillis, false)
+      val serializedHistoryItem = write(historyItem)
+      r.rpush(deckHistoryKey(deckId), serializedHistoryItem)
+
       println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}")
     })
 
