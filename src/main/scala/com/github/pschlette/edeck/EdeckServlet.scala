@@ -6,6 +6,7 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 import org.scalatra._
+import org.scalatra.json.JacksonJsonSupport
 
 import com.github.pschlette.edeck.RedisHelpers.{deckTimestampKey, deckProposedCardsKey, deckHistoryKey}
 
@@ -17,8 +18,10 @@ object DeckActions {
   val Remove = "remove"
 }
 
-class EdeckServlet extends EdeckStack {
-  protected implicit lazy val formats = DefaultFormats
+class EdeckServlet extends EdeckStack with JacksonJsonSupport {
+  protected implicit lazy val jsonFormats = DefaultFormats
+
+  def getDeckState(deckId: String): List[String] = List("it's", "all", "good")
 
   get("^/(decks)?$".r) {
     <html>
@@ -73,7 +76,8 @@ class EdeckServlet extends EdeckStack {
       println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}")
     })
 
-    <p>K thx 4 your add request</p>
+    contentType = formats("json")
+    getDeckState(deckId)
   }
 
   post("/decks/:id/remove") {
