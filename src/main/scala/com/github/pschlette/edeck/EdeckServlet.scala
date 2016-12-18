@@ -12,6 +12,11 @@ import com.github.pschlette.edeck.RedisHelpers.{deckTimestampKey, deckProposedCa
 case class DeckChangeRequest(cardName: String, user: String)
 case class HistoryItem(action: String, cardName: String, user: String, timestamp: Long, random: Boolean)
 
+object DeckActions {
+  val Add = "add"
+  val Remove = "remove"
+}
+
 class EdeckServlet extends EdeckStack {
   protected implicit lazy val formats = DefaultFormats
 
@@ -61,13 +66,34 @@ class EdeckServlet extends EdeckStack {
       r.sadd(deckProposedCardsKey(deckId), changeRequest.cardName)
 
       // add history entry
-      val historyItem = HistoryItem("add", changeRequest.cardName, changeRequest.user, System.currentTimeMillis, false)
+      val historyItem = HistoryItem(DeckActions.Add, changeRequest.cardName, changeRequest.user, System.currentTimeMillis, false)
       val serializedHistoryItem = write(historyItem)
       r.rpush(deckHistoryKey(deckId), serializedHistoryItem)
 
       println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}")
     })
 
-    <p>K thx</p>
+    <p>K thx 4 your add request</p>
+  }
+
+  post("/decks/:id/remove") {
+    val deckId = params("id")
+    val parsedBody = parse(request.body)
+    val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
+    val r = new RedisClient("localhost", 6379)
+
+    maybeChangeRequest.filter(cr => r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(cr => {
+      // remove card from deck
+      r.srem(deckProposedCardsKey(deckId), cr.cardName)
+
+      // add history entry
+      val historyItem = HistoryItem(DeckActions.Remove, cr.cardName, cr.user, System.currentTimeMillis, false)
+      val serializedHistoryItem = write(historyItem)
+      r.rpush(deckHistoryKey(deckId), serializedHistoryItem)
+
+      println(s"Received change request from ${cr.user} to remove ${cr.cardName}")
+    })
+
+    <p>K thx 4 your remove request</p>
   }
 }
