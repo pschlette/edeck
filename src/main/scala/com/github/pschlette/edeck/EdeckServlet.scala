@@ -21,7 +21,15 @@ object DeckActions {
 class EdeckServlet extends EdeckStack with JacksonJsonSupport {
   protected implicit lazy val jsonFormats = DefaultFormats
 
-  def getDeckState(deckId: String): List[String] = List("it's", "all", "good")
+  def getDeckState(deckId: String): Map[String, Any] = {
+    val r = new RedisClient("localhost", 6379)
+    val proposedCardsSet = r.smembers(deckProposedCardsKey(deckId))
+    val proposedCardList = proposedCardsSet.getOrElse(Set()).flatten.toList
+
+    val historyList = r.lrange(deckHistoryKey(deckId), 0, -1)
+
+    Map("cards" -> proposedCardList, "history" -> historyList)
+  }
 
   get("^/(decks)?$".r) {
     <html>
