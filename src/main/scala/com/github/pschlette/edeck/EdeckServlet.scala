@@ -106,6 +106,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport {
       println(s"Received change request from ${cr.user} to remove ${cr.cardName}")
     })
 
-    <p>K thx 4 your remove request</p>
+    contentType = formats("json")
+    getDeckState(deckId)
   }
 }
