@@ -18,7 +18,7 @@ object DeckActions {
   val Remove = "remove"
 }
 
-class EdeckServlet extends EdeckStack with JacksonJsonSupport,  {
+class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
   protected implicit lazy val jsonFormats = DefaultFormats
 
   def getDeckState(deckId: String): Map[String, Any] = {
@@ -50,6 +50,13 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport,  {
     val r = new RedisClient("localhost", 6379)
     val timestamp = r.get(deckTimestampKey(deckId)).getOrElse(0)
     <p>You're viewing the deck with id {deckId}. It was created at ${timestamp}.</p>
+  }
+
+  get("/decks/:id.json") {
+    val deckId = params("id")
+    val r = new RedisClient("localhost", 6379)
+    contentType = formats("json")
+    getDeckState(deckId)
   }
   
   post("/decks/:id/add") {
