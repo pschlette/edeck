@@ -48,6 +48,8 @@ scalateTemplateConfig in Compile := {
 
 enablePlugins(JettyPlugin)
 
-
-lazy val seedCards = taskKey[Unit]("Seeds card data in redis")
-fullRunTask(seedCards, Compile, "com.github.pschlette.edeck.KingdomCardSeeder")
+fullRunTask(
+  TaskKey[Unit]("seed-db", "Seeds card data in redis"),
+  Compile,
+  "com.github.pschlette.edeck.KingdomCardSeeder"
+)
