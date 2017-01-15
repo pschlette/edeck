@@ -33,6 +33,6 @@ object KingdomCardSeeder {
     for (card <- safeKingdomCards)
       r.rpush(KingdomCardsKey, write(card))
 
-    println(s"Inserted ${safeKingdomCards.length} cards into redis instance at key '${KingdomCardsKey}'")
+    println(s"Cleared existing kingdom card data and inserted ${safeKingdomCards.length} cards into redis instance at key '${KingdomCardsKey}'")
   }
 }
