@@ -18,7 +18,7 @@ object DeckActions {
   val Remove = "remove"
 }
 
-class EdeckServlet extends EdeckStack with JacksonJsonSupport {
+class EdeckServlet extends EdeckStack with JacksonJsonSupport,  {
   protected implicit lazy val jsonFormats = DefaultFormats
 
   def getDeckState(deckId: String): Map[String, Any] = {
@@ -29,20 +29,6 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport {
     val historyList = r.lrange(deckHistoryKey(deckId), 0, -1)
 
     Map("cards" -> proposedCardList, "history" -> historyList)
-  }
-
-  get("^/(decks)?$".r) {
-    <html>
-      <body>
-        <h1>Hello, world!</h1>
-        <form method="POST" action="decks">
-          <p>
-            This is the e-dom editor for collaborative kingdoms.<br/>
-            Click the button to generate a new deck: <input type="submit"/>
-          </p>
-        </form>
-      </body>
-    </html>
   }
 
   post("/decks") {
@@ -81,7 +67,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport {
       val serializedHistoryItem = write(historyItem)
       r.rpush(deckHistoryKey(deckId), serializedHistoryItem)
 
-      println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}")
+      println(s"Received change request from ${changeRequest.user} to add ${changeRequest.cardName}.")
     })
 
     contentType = formats("json")
