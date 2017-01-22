@@ -1,0 +1,12 @@
+<%@ val body: String %>
+
+<html>
+<head>
+  <title>EDECK: Electronic Dominion Editor for Collaborative Kingdoms</title>
+</head>
+<body>
+  <div id="content">
+    <%= unescape(body) %>
+  </div>
+</body>
+</html>

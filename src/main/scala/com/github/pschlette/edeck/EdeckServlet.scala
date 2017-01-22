@@ -31,6 +31,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
     Map("cards" -> proposedCardList, "history" -> historyList)
   }
 
+  // create a new deck and redirect user to webpage showing it
   post("/decks") {
     val newDeckId = UUID.randomUUID.toString
     val timestamp = System.currentTimeMillis
@@ -45,13 +46,17 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
     redirect(s"/decks/${newDeckId}")
   }
 
+  // show a webpage where the user can change the deck
   get("/decks/:id") {
     val deckId = params("id")
     val r = new RedisClient("localhost", 6379)
-    val timestamp = r.get(deckTimestampKey(deckId)).getOrElse(0)
-    <p>You're viewing the deck with id {deckId}. It was created at ${timestamp}.</p>
+    val timestamp: Long = (r.get(deckTimestampKey(deckId)).getOrElse("0")).toLong
+
+    contentType="text/html"
+    ssp("/decks/show", "deckId" -> deckId, "timestamp" -> timestamp)
   }
 
+  // get a json representation of a deck
   get("/decks/:id.json") {
     val deckId = params("id")
     val r = new RedisClient("localhost", 6379)
@@ -59,6 +64,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
     getDeckState(deckId)
   }
   
+  // add a card to a deck, return new state of deck (json)
   post("/decks/:id/add") {
     val deckId = params("id")
     val parsedBody = parse(request.body)
@@ -81,6 +87,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
     getDeckState(deckId)
   }
 
+  // remove a card from a deck, return new state of deck (json)
   post("/decks/:id/remove") {
     val deckId = params("id")
     val parsedBody = parse(request.body)

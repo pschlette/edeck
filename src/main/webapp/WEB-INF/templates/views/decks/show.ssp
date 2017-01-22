@@ -1,0 +1,6 @@
+<%@ val deckId: String %>
+<%@ val timestamp: Long %>
+
+<p>
+  You're viewing the deck with id <%= deckId %>. It was created at <%= timestamp %>.
+</p>
