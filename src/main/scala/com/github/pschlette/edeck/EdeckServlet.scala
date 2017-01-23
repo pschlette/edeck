@@ -8,7 +8,12 @@ import org.json4s.jackson.Serialization.write
 import org.scalatra._
 import org.scalatra.json.JacksonJsonSupport
 
-import com.github.pschlette.edeck.RedisHelpers.{deckTimestampKey, deckProposedCardsKey, deckHistoryKey}
+import com.github.pschlette.edeck.RedisHelpers.{
+  KingdomCardsKey,
+  deckTimestampKey,
+  deckProposedCardsKey,
+  deckHistoryKey
+}
 
 case class DeckChangeRequest(cardName: String, user: String)
 case class HistoryItem(action: String, cardName: String, user: String, timestamp: Long, random: Boolean)
@@ -29,6 +34,18 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
     val historyList = r.lrange(deckHistoryKey(deckId), 0, -1)
 
     Map("cards" -> proposedCardList, "history" -> historyList)
+  }
+
+  // Return all possible kingdom cards as JSON
+  // This is a lot of work, computationally speaking; maybe we should just be returning the raw JSON.
+  // Where's the fun in that though. Where.
+  get("/cards") {
+    contentType = formats("json")
+    val r = new RedisClient("localhost", 6379)
+    val rawCards = r.lrange(KingdomCardsKey, 0, -1).getOrElse(List())
+    // The kingdom cards are stored as serialized JSON blobs, so we'll need to parse them into
+    // JSON (before promptly re-serializing them to send over the wire...)
+    rawCards.flatMap(_.map(parse(_)))
   }
 
   // create a new deck and redirect user to webpage showing it
