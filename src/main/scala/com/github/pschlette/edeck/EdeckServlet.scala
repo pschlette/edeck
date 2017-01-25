@@ -23,7 +23,7 @@ object DeckActions {
   val Remove = "remove"
 }
 
-class EdeckServlet extends EdeckStack with JacksonJsonSupport  {
+class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  {
   protected implicit lazy val jsonFormats = DefaultFormats
 
   def getDeckState(deckId: String): Map[String, Any] = {
