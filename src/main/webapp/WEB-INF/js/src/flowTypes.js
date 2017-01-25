@@ -22,5 +22,3 @@ export type Deck = {
   cards: Array<CardName>,
   history: Array<DeckEvent>
 };
-
-export const placeholder = 'something';
