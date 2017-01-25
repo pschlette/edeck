@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start-dev": "webpack-dev-server --inline --hot --host 0.0.0.0 --port 3000",
+    "start-dev": "webpack-dev-server --inline --hot --history-api-fallback --host 0.0.0.0 --port 3000",
     "build-prod-client": "npm run nvm-use && npm install && NODE_ENV=production webpack -p"
   },
   "keywords": [],
