@@ -1,7 +1,7 @@
 // @flow
 import type { DeckAction } from 'constants/deckActions';
 
-type CardName = string;
+export type CardName = string;
 
 export type CardDetails = {
   name: CardName,
