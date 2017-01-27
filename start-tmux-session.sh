@@ -8,6 +8,12 @@ tmux new-window -t 8
 tmux rename-window -t edeck:8 "redis"
 tmux send-keys "redis-server" Enter
 
+tmux new-window -t 4
+tmux rename-window -t edeck:4 "js-bash"
+
+tmux new-window -t 3
+tmux rename-window -t edeck:3 "js-editor"
+
 tmux new-window -t 2
 tmux rename-window -t edeck:2 "bash"
 
