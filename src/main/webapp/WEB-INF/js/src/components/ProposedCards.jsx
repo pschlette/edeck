@@ -19,7 +19,7 @@ class ProposedCards extends React.Component {
     return (
       <div className="row">
         <div className="col-12">
-          <table>
+          <table className="table">
             <thead>
               <tr>
                 <th>Card</th>
@@ -32,6 +32,7 @@ class ProposedCards extends React.Component {
                 selectedCards.map(card => (
                   <tr key={card}>
                     <td>{card}</td>
+                    <td>???</td>
                     <td>Remove button</td>
                   </tr>
                 ))

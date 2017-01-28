@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import type { CardDetails, CardName, Deck } from 'flowTypes';
-import { fetchKingdomCards, fetchDeck } from 'deckActions';
+import { fetchKingdomCards, fetchDeck, addCardToDeck } from 'deckActions';
 
 import CardSelector from 'components/CardSelector';
 import ProposedCards from 'components/ProposedCards';
@@ -17,23 +17,9 @@ type appState = {
 }
 
 class App extends Component {
-  props: appProps;
-
   state: appState = {
     cardDetails: null,
     deck: null,
-  }
-
-  getKingdomCards = () => {
-    fetchKingdomCards().then(response => {
-      this.setState({ cardDetails: response.data });
-    });
-  }
-
-  getDeck = () => {
-    fetchDeck(this.props.deckId).then(response => {
-      this.setState({ deck: response.data });
-    });
   }
 
   componentWillMount() {
@@ -41,8 +27,28 @@ class App extends Component {
     this.getDeck();
   }
 
-  handleAddCard(cardName: CardName) {
-    console.log(`request to add card '${cardName}'`);
+  getKingdomCards = () => {
+    fetchKingdomCards().then((response) => {
+      this.setState({ cardDetails: response.data });
+    });
+  }
+
+  getDeck = () => {
+    fetchDeck(this.props.deckId).then((response) => {
+      this.updateDeckState(response.data);
+    });
+  }
+
+  props: appProps;
+
+  updateDeckState = (newDeckState: Deck) => {
+    this.setState({ deck: newDeckState });
+  }
+
+  handleAddCard = (cardName: CardName) => {
+    addCardToDeck(cardName, this.props.deckId).then(
+      response => this.updateDeckState(response.data),
+    );
   }
 
   handleRemoveCard(cardName: CardName) {
