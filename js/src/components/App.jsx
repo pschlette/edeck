@@ -16,6 +16,8 @@ type appState = {
   deck: ?Deck
 }
 
+const DECK_REFRESH_INTERVAL_MS: number = 2000;
+
 class App extends Component {
   state: appState = {
     cardDetails: null,
@@ -25,6 +27,8 @@ class App extends Component {
   componentWillMount() {
     this.getKingdomCards();
     this.getDeck();
+
+    setInterval(this.getDeck, DECK_REFRESH_INTERVAL_MS);
   }
 
   getKingdomCards = () => {
