@@ -33,7 +33,14 @@ class ProposedCards extends React.Component {
                   <tr key={card}>
                     <td>{card}</td>
                     <td>???</td>
-                    <td>Remove button</td>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => this.handleRemoveCard(card)}
+                      >
+                        Remove
+                      </button>
+                    </td>
                   </tr>
                 ))
               }

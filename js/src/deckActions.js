@@ -17,3 +17,7 @@ export const fetchDeck = (deckId: string): AxiosPromise<Deck> => {
 export const addCardToDeck = (cardName: CardName, deckId: string): AxiosPromise<Deck> => {
   return axios.post(buildApiUrl(`decks/${deckId}/add`), { cardName, user: 'unknown' });
 };
+
+export const removeCardFromDeck = (cardName: CardName, deckId: string): AxiosPromise<Deck> => {
+  return axios.post(buildApiUrl(`decks/${deckId}/remove`), { cardName, user: 'unknown' });
+};

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import type { CardDetails, CardName, Deck } from 'flowTypes';
-import { fetchKingdomCards, fetchDeck, addCardToDeck } from 'deckActions';
+import { fetchKingdomCards, fetchDeck, addCardToDeck, removeCardFromDeck } from 'deckActions';
 
 import CardSelector from 'components/CardSelector';
 import ProposedCards from 'components/ProposedCards';
@@ -51,8 +51,10 @@ class App extends Component {
     );
   }
 
-  handleRemoveCard(cardName: CardName) {
-    console.log(`request to remove card '${cardName}'`);
+  handleRemoveCard = (cardName: CardName) => {
+    removeCardFromDeck(cardName, this.props.deckId).then(
+      response => this.updateDeckState(response.data),
+    );
   }
 
   render() {
