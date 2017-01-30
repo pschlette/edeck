@@ -1,6 +1,6 @@
-.lib/**
-project/project/**
-project/target/**
-target/**
+server/.lib/**
+server/project/project/**
+server/project/target/**
+server/target/**
 dump.rdb
 todo.txt
