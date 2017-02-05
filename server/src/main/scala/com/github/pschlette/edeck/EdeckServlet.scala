@@ -1,6 +1,5 @@
 package com.github.pschlette.edeck
 
-import com.redis.RedisClient
 import java.util.UUID
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
@@ -8,7 +7,8 @@ import org.json4s.jackson.Serialization.write
 import org.scalatra._
 import org.scalatra.json.JacksonJsonSupport
 
-import com.github.pschlette.edeck.RedisHelpers.{
+import RedisHelpers.{
+  createClient,
   KingdomCardsKey,
   deckTimestampKey,
   deckProposedCardsKey,
@@ -27,7 +27,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
   protected implicit lazy val jsonFormats = DefaultFormats
 
   def getDeckState(deckId: String): Map[String, Any] = {
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
     val proposedCardsSet = r.smembers(deckProposedCardsKey(deckId))
     val proposedCardList = proposedCardsSet.getOrElse(Set()).flatten.toList
 
@@ -41,7 +41,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
   // Where's the fun in that though. Where.
   get("/cards") {
     contentType = formats("json")
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
     val rawCards = r.lrange(KingdomCardsKey, 0, -1).getOrElse(List())
     // The kingdom cards are stored as serialized JSON blobs, so we'll need to parse them into
     // JSON (before promptly re-serializing them to send over the wire...)
@@ -57,7 +57,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     // So, we don't want to expire our keys (because then we'd lose all that great historical deck
     // data), but we do want to keep track of when a deck was created in case some day we want to
     // archive all the really old decks...or something.
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
     r.set(deckTimestampKey(newDeckId), timestamp)
 
     redirect(s"/decks/${newDeckId}")
@@ -66,7 +66,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
   // show a webpage where the user can change the deck
   get("/decks/:id") {
     val deckId = params("id")
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
     val timestamp: Long = (r.get(deckTimestampKey(deckId)).getOrElse("0")).toLong
 
     contentType="text/html"
@@ -76,7 +76,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
   // get a json representation of a deck
   get("/decks/:id.json") {
     val deckId = params("id")
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
     contentType = formats("json")
     getDeckState(deckId)
   }
@@ -86,7 +86,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     val deckId = params("id")
     val parsedBody = parse(request.body)
     val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
 
     maybeChangeRequest.filter(cr => !r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(changeRequest => {
       // add card to deck
@@ -109,7 +109,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     val deckId = params("id")
     val parsedBody = parse(request.body)
     val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
-    val r = new RedisClient("localhost", 6379)
+    val r = createClient()
 
     maybeChangeRequest.filter(cr => r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(cr => {
       // remove card from deck

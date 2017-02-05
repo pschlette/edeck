@@ -3,9 +3,6 @@ package com.github.pschlette.edeck
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
-import com.redis
-
-import com.github.pschlette.edeck.RedisHelpers.KingdomCardsKey
 
 // This might be useful in application code later.
 case class KingdomCard(name: String, cost: String, cardType: String, description: String, set: String)
@@ -27,12 +24,13 @@ object KingdomCardSeeder {
 
     // Serialize and insert each kingdom card into a list in redis
     // 6379 is redis' default port
-    val r = new redis.RedisClient("localhost", 6379)
-    r.del(KingdomCardsKey)
+    val r = RedisHelpers.createClient()
+    val kingdomCardsKey = RedisHelpers.KingdomCardsKey
+    r.del(kingdomCardsKey)
     val safeKingdomCards = kingdomCards.getOrElse(List[KingdomCard]())
     for (card <- safeKingdomCards)
-      r.rpush(KingdomCardsKey, write(card))
+      r.rpush(kingdomCardsKey, write(card))
 
-    println(s"Cleared existing kingdom card data and inserted ${safeKingdomCards.length} cards into redis instance at key '${KingdomCardsKey}'")
+    println(s"Cleared existing kingdom card data and inserted ${safeKingdomCards.length} cards into redis instance at key '${kingdomCardsKey}'")
   }
 }
