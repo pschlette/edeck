@@ -8,4 +8,4 @@ RUN ./sbt compile
 
 EXPOSE 8080
 
-CMD ["./sbt", "~; compile; jetty:start"]
+CMD ["./sbt", "; seed-db; ~jetty:start"]
