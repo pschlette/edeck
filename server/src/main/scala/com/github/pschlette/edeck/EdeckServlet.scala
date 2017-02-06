@@ -60,17 +60,8 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     val r = createClient()
     r.set(deckTimestampKey(newDeckId), timestamp)
 
-    redirect(s"/decks/${newDeckId}")
-  }
-
-  // show a webpage where the user can change the deck
-  get("/decks/:id") {
-    val deckId = params("id")
-    val r = createClient()
-    val timestamp: Long = (r.get(deckTimestampKey(deckId)).getOrElse("0")).toLong
-
-    contentType="text/html"
-    ssp("/decks/show", "deckId" -> deckId, "timestamp" -> timestamp)
+    contentType = formats("json")
+    getDeckState(newDeckId)
   }
 
   // get a json representation of a deck
