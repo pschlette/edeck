@@ -9,5 +9,5 @@ const deckId: string = window.location.pathname.split('/').pop();
 
 ReactDOM.render(
   React.createElement(App, { deckId }),
-  document.getElementById('root')
+  document.getElementById('root'),
 );
