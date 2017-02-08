@@ -1,18 +1,17 @@
 // @flow
 import React, { Component } from 'react';
 import type { CardDetails, CardName, Deck } from 'flowTypes';
-import { fetchKingdomCards, fetchDeck, addCardToDeck, removeCardFromDeck } from 'deckActions';
+import { fetchDeck, addCardToDeck, removeCardFromDeck } from 'deckActions';
 
 import CardSelector from 'components/CardSelector';
 import ProposedCards from 'components/ProposedCards';
-import styles from './DeckEditor.scss';
 
 type deckEditorProps = {
-  deckId: string
+  deckId: string,
+  cardDetails: ?Array<CardDetails>,
 };
 
 type deckEditorState = {
-  cardDetails: ?Array<CardDetails>,
   deck: ?Deck
 }
 
@@ -20,21 +19,12 @@ const DECK_REFRESH_INTERVAL_MS: number = 2000;
 
 class DeckEditor extends Component {
   state: deckEditorState = {
-    cardDetails: null,
     deck: null,
   }
 
   componentWillMount() {
-    this.getKingdomCards();
     this.getDeck();
-
     setInterval(this.getDeck, DECK_REFRESH_INTERVAL_MS);
-  }
-
-  getKingdomCards = () => {
-    fetchKingdomCards().then((response) => {
-      this.setState({ cardDetails: response.data });
-    });
   }
 
   getDeck = () => {
@@ -43,7 +33,7 @@ class DeckEditor extends Component {
     });
   }
 
-  props: deckEditorProps;
+  props: deckEditorProps
 
   updateDeckState = (newDeckState: Deck) => {
     this.setState({ deck: newDeckState });
@@ -62,22 +52,25 @@ class DeckEditor extends Component {
   }
 
   render() {
+    const { cardDetails } = this.props;
+    const { deck } = this.state;
+
     return (
       <div className="row">
         <div className="col-8">
           {
-            this.state.cardDetails ? (
+            cardDetails ? (
               <CardSelector
-                allCardDetails={this.state.cardDetails}
-                selectedCards={this.state.deck ? this.state.deck.cards : []}
+                allCardDetails={cardDetails}
+                selectedCards={deck ? deck.cards : []}
                 onAddCard={this.handleAddCard}
               />
             ) : null
           }
           {
-            this.state.deck ? (
+            deck ? (
               <ProposedCards
-                selectedCards={this.state.deck.cards}
+                selectedCards={deck.cards}
                 onRemoveCard={this.handleRemoveCard}
               />
             ) : null

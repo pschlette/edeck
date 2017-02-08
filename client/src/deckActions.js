@@ -6,6 +6,10 @@ import type { CardDetails, Deck, CardName } from 'flowTypes';
 const BASE_URL = 'http://localhost:8080';
 const buildApiUrl = relativePath => `${BASE_URL}/${relativePath}`;
 
+export const createDeck = (): AxiosPromise<Deck> => {
+  return axios.post(buildApiUrl('decks'));
+};
+
 export const fetchKingdomCards = (): AxiosPromise<Array<CardDetails>> => {
   return axios.get(buildApiUrl('cards'));
 };

@@ -33,7 +33,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
 
     val historyList = r.lrange(deckHistoryKey(deckId), 0, -1)
 
-    Map("cards" -> proposedCardList, "history" -> historyList)
+    Map("id" -> deckId, "cards" -> proposedCardList, "history" -> historyList)
   }
 
   // Return all possible kingdom cards as JSON

@@ -19,6 +19,7 @@ export type DeckEvent = {
 };
 
 export type Deck = {
+  id: string,
   cards: Array<CardName>,
   history: Array<DeckEvent>
 };
