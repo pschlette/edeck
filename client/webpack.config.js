@@ -1,5 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
+const process = require('process');
+
+const API_BASE = process.env.API_BASE;
 
 const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 
@@ -47,6 +50,9 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      WEBPACK_API_BASE: JSON.stringify(API_BASE || 'localhost:8080/'),
+    }),
     new FlowStatusWebpackPlugin(),
   ],
 };

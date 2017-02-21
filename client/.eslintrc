@@ -21,4 +21,7 @@
     "browser": true,
     "node": true,
   },
+  "globals": {
+    "WEBPACK_API_BASE": false
+  }
 }

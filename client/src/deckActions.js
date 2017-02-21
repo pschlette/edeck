@@ -3,8 +3,10 @@ import axios from 'axios';
 import type { AxiosPromise } from 'axios';
 import type { CardDetails, Deck, CardName } from 'flowTypes';
 
-const BASE_URL = 'http://localhost:8080';
-const buildApiUrl = relativePath => `${BASE_URL}/${relativePath}`;
+declare var WEBPACK_API_BASE: string;
+
+const API_BASE = WEBPACK_API_BASE;
+const buildApiUrl = relativePath => `${API_BASE}/${relativePath}`;
 
 export const createDeck = (): AxiosPromise<Deck> => {
   return axios.post(buildApiUrl('decks'));
