@@ -1,4 +1,4 @@
-FROM hseeberger/scala-sbt:latest
+FROM frolvlad/alpine-scala
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
