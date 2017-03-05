@@ -1519,25 +1519,11 @@
     "name": "Caravan Guard"
   },
   {
-    "description": "+1 Action. For the rest of the game, when another player plays an Attack, it doesn't affect you, and when you play an Action, +1 Action. (This stays in play. This is not in the Supply.)",
-    "cost": "6",
-    "cardType": "Action – Duration",
-    "set": "Adventures",
-    "name": "Champion"
-  },
-  {
     "description": "Worth 1 coin. When you play this, put it on your Tavern mat. — Directly after resolving an Action, you may call this, for +2 Actions.",
     "cost": "2",
     "cardType": "Treasure – Reserve",
     "set": "Adventures",
     "name": "Coin of the Realm"
-  },
-  {
-    "description": "You may play an Action card from your hand twice. Gain a copy of it. — When you discard this from play, you may exchange it for a Teacher. (This is not in the Supply.)",
-    "cost": "5",
-    "cardType": "Action – Traveller",
-    "set": "Adventures",
-    "name": "Disciple"
   },
   {
     "description": "Put this on your Tavern mat. — Worth 4 VP. if on your Tavern mat at the end of the game (otherwise worth 0 VP).",
@@ -1559,13 +1545,6 @@
     "cardType": "Action – Reserve",
     "set": "Adventures",
     "name": "Duplicate"
-  },
-  {
-    "description": "+2 Cards +1 Action Discard a card. — When you discard this from play, you may exchange it for a Disciple. (This is not in the Supply.)",
-    "cost": "4",
-    "cardType": "Action – Traveller",
-    "set": "Adventures",
-    "name": "Fugitive"
   },
   {
     "description": "+2 Cards. Set aside up to 2 cards from your hand face down. At the start of your next turn, put them into your hand.",
@@ -1594,13 +1573,6 @@
     "cardType": "Action – Attack – Duration",
     "set": "Adventures",
     "name": "Haunted Woods"
-  },
-  {
-    "description": "+2 coins. Gain a Treasure. — When You Discard this from play, You may exchange it For a Champion. (this is not in the Supply.)",
-    "cost": "5",
-    "cardType": "Action – Traveller",
-    "set": "Adventures",
-    "name": "Hero"
   },
   {
     "description": "At the start of each of your turns for the rest of the game: +1 Card. (This stays in play.)",
@@ -1694,13 +1666,6 @@
     "name": "Royal Carriage"
   },
   {
-    "description": "+2 coins. +1 coins per other Attack you have in play. Each other player with 4 or more cards in hand discards a card. — When you discard this from play, you may exchange it for a Fugitive. (This is not in the Supply.)",
-    "cost": "3",
-    "cardType": "Action – Attack – Traveller",
-    "set": "Adventures",
-    "name": "Soldier"
-  },
-  {
     "description": "+1 Action; +1 coins. Play up to 3 Treasures from your hand. Pay all of your coins; +1 Card per coins paid.",
     "cost": "5",
     "cardType": "Action",
@@ -1715,13 +1680,6 @@
     "name": "Swamp Hag"
   },
   {
-    "description": "Put this on your Tavern mat. — At the start of your turn, you may call this, to move your +1 Card, +1 Action, +1 Buy, or +1 coin token to an Action Supply pile you have no tokens on (when you play a card from that pile, you first get that bonus). (This is not in the Supply.)",
-    "cost": "6",
-    "cardType": "Action – Reserve",
-    "set": "Adventures",
-    "name": "Teacher"
-  },
-  {
     "description": "+1 Action. Put this on your Tavern mat. — At the start of your turn, you may call this, to trash a card from your hand, gain a card costing up to 1 coin more than it, and put that card into your hand.",
     "cost": "4",
     "cardType": "Action – Reserve",
@@ -1729,25 +1687,11 @@
     "name": "Transmogrify"
   },
   {
-    "description": "+1 Action; +1 coin. Gain a Silver per card the player to your right gained in his last turn. — When you discard this from play, you may exchange it for a Warrior. (This is not in the Supply.)",
-    "cost": "3",
-    "cardType": "Action – Traveller",
-    "set": "Adventures",
-    "name": "Treasure Hunter"
-  },
-  {
     "description": "Worth 2 coins. When you play this, gain a Gold and a Copper.",
     "cost": "5",
     "cardType": "Treasure",
     "set": "Adventures",
     "name": "Treasure Trove"
-  },
-  {
-    "description": "+2 Cards. For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 coins or 4 coins. — When you discard this from play, you may exchange it for a Hero. (This is not in the S",
-    "cost": "4",
-    "cardType": "Action – Attack – Traveller",
-    "set": "Adventures",
-    "name": "Warrior"
   },
   {
     "description": "+4 coins; +1 Buy. Put this on your Tavern mat. — At the end of your Buy phase, if you have at least 2 coins unspent, you may discard this from your Tavern mat.",
