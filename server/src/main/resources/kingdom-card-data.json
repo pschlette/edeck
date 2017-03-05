@@ -1352,8 +1352,8 @@
   },
   {
     "name": "Knights",
-    "cardType": "",
-    "cost": "",
+    "cardType": "Action - Attack",
+    "cost": "*",
     "description": "One of each, all shuffled into one Kingdom pile",
     "set": "Dark Ages"
   },
