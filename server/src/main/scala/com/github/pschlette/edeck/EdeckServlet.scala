@@ -31,9 +31,9 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     val proposedCardsSet = r.smembers(deckProposedCardsKey(deckId))
     val proposedCardList = proposedCardsSet.getOrElse(Set()).flatten.toList
 
-    val historyList = r.lrange(deckHistoryKey(deckId), 0, -1)
-
-    Map("id" -> deckId, "cards" -> proposedCardList, "history" -> historyList)
+    val rawHistoryJson: List[String] = r.lrange(deckHistoryKey(deckId), 0, -1).getOrElse(List()).flatMap(hi => hi)
+    val history: List[HistoryItem] = rawHistoryJson.flatMap(hi => parse(hi).extractOpt[HistoryItem])
+    Map("id" -> deckId, "cards" -> proposedCardList, "history" -> history)
   }
 
   // Return all possible kingdom cards as JSON
