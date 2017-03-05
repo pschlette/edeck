@@ -11,6 +11,10 @@ const dotCssLoaders = [
   'css?modules',
 ];
 
+const devPlugins = [
+  new FlowStatusWebpackPlugin(),
+];
+
 module.exports = {
   context: path.resolve(__dirname),
   entry: 'index',
@@ -53,6 +57,5 @@ module.exports = {
     new webpack.DefinePlugin({
       WEBPACK_API_BASE: JSON.stringify(API_BASE || 'localhost:8080'),
     }),
-    new FlowStatusWebpackPlugin(),
-  ],
+  ].concat(process.env.NODE_ENV === 'production' ? [] : devPlugins),
 };
