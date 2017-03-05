@@ -1764,13 +1764,6 @@
     "name": "Archive"
   },
   {
-    "description": "+1 Card +3 Actions Look through your discard pile. You may reveal a Settlers from it and put it into your hand.",
-    "cost": "5",
-    "cardType": "Action",
-    "set": "Empires",
-    "name": "Bustling Village"
-  },
-  {
     "description": "Worth 6 coins. +1 Buy. — When you discard this from play, take 6 Debt, and then you may pay off Debt.",
     "cost": "5",
     "cardType": "Treasure",
@@ -1813,27 +1806,6 @@
     "name": "Crown"
   },
   {
-    "description": "Worth 1 VP. When you gain or trash this, +1 VP token and gain a Silver.",
-    "cost": "4",
-    "cardType": "Victory - Castle",
-    "set": "Empires",
-    "name": "Crumbling Castle"
-  },
-  {
-    "description": "+1 Card +1 Action +1 coin When you gain this, if you have at least 5 Action cards in play, +2 VP tokens",
-    "cost": "5",
-    "cardType": "Action",
-    "set": "Empires",
-    "name": "Emporium"
-  },
-  {
-    "description": "+2 Cards. +2 Actions. You may reveal a Gold or Plunder from your hand. If you do not, set this aside, and return it to the Supply at the start of Clean-up.",
-    "cost": "2",
-    "cardType": "Action",
-    "set": "Empires",
-    "name": "Encampment"
-  },
-  {
     "description": "Until your next turn, the first time each other player plays an Action card on their turn, they get +1 Card and +1 Action instead of following its instructions. At the start of your next turn, +2 Cards.",
     "cost": "3",
     "cardType": "Action – Attack – Duration",
@@ -1855,13 +1827,6 @@
     "name": "Farmers' Market"
   },
   {
-    "description": "+1 Buy  When you play this, double your coins if you haven't yet this turn. When you gain this, gain a Gold per Gladiator you have in play.",
-    "cost": "8",
-    "cardType": "Treasure",
-    "set": "Empires",
-    "name": "Fortune"
-  },
-  {
     "description": "+3 Cards. +1 Action. Discard 2 cards. — When you buy this, +1 Buy.",
     "cost": "5",
     "cardType": "Action",
@@ -1876,13 +1841,6 @@
     "name": "Gladiator"
   },
   {
-    "description": "Worth 5 VP. When you gain this, reveal your hand. +1 VP token per Victory card in your hand and/or in play.",
-    "cost": "9",
-    "cardType": "Victory - Castle",
-    "set": "Empires",
-    "name": "Grand Castle"
-  },
-  {
     "description": "+1 Card. +1 Action. — While this is in play, when you gain a Victory card, +1 VP token",
     "cost": "5",
     "cardType": "Action",
@@ -1890,25 +1848,11 @@
     "name": "Groundskeeper"
   },
   {
-    "description": "Worth 2 VP. When you gain this during your turn, gain a Gold, and each other player with 5 or more cards in hand puts 2 cards from their hand onto their deck.",
-    "cost": "6",
+    "description": "",
+    "cost": "*",
     "cardType": "Victory - Castle",
     "set": "Empires",
-    "name": "Haunted Castle"
-  },
-  {
-    "description": "+1 coin. Worth 1 VP per Castle you have.",
-    "cost": "3",
-    "cardType": "Treasure - Victory - Castle",
-    "set": "Empires",
-    "name": "Humble Castle"
-  },
-  {
-    "description": "Worth 2 VP per Castle you have.",
-    "cost": "10",
-    "cardType": "Victory - Castle",
-    "set": "Empires",
-    "name": "King's Castle"
+    "name": "Castles"
   },
   {
     "description": "+3 coins. You may reveal a Gold from your hand. If you do, each other player discards down to 2 cards in hand, then draws a card.",
@@ -1916,13 +1860,6 @@
     "cardType": "Action - Attack",
     "set": "Empires",
     "name": "Legionary"
-  },
-  {
-    "description": "Discard any number of Victory cards. +2 coins per card discarded. Worth 3 VP",
-    "cost": "7",
-    "cardType": "Action - Victory - Castle",
-    "set": "Empires",
-    "name": "Opulent Castle"
   },
   {
     "description": "Play this as if it were an Action card in the Supply costing up to 5 coins. This is that card until it leaves play.",
@@ -1937,20 +1874,6 @@
     "cardType": "Action",
     "set": "Empires",
     "name": "Patrician"
-  },
-  {
-    "description": "Worth 2 coins. +1 VP token.",
-    "cost": "5",
-    "cardType": "Treasure",
-    "set": "Empires",
-    "name": "Plunder"
-  },
-  {
-    "description": "Worth 1 coin. When you gain or trash this, gain a Silver; if it is your Buy phase, put the Silver on your deck, otherwise put it into your hand.",
-    "cost": "4",
-    "cardType": "Treasure",
-    "set": "Empires",
-    "name": "Rocks"
   },
   {
     "description": "+5 Cards. Reveal your hand; discard the Coppers.",
@@ -1972,20 +1895,6 @@
     "cardType": "Action",
     "set": "Empires",
     "name": "Settlers"
-  },
-  {
-    "description": "Trash this or a Castle from your hand. If you do, gain a Castle. Worth 2 VP.",
-    "cost": "5",
-    "cardType": "Action - Victory - Castle",
-    "set": "Empires",
-    "name": "Small Castle"
-  },
-  {
-    "description": "Worth 4 VP. When you gain this, gain a Duchy or 3 Estates.",
-    "cost": "8",
-    "cardType": "Victory - Castle",
-    "set": "Empires",
-    "name": "Sprawling Castle"
   },
   {
     "description": "+1 VP token. Trash from 1 to 3 differently named cards from your hand. Add 1 VP token to the Temple Supply pile. — When you gain this, take the  VP tokens from the Temple Supply pile.",
