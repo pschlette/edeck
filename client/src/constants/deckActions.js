@@ -3,6 +3,6 @@ const deckActions = {
   REMOVE: 'remove',
 };
 
-type DeckAction = $Keys<typeof deckActions>;
+export type DeckAction = 'add' | 'remove';
 
 export default deckActions;

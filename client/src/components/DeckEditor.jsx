@@ -5,6 +5,7 @@ import { fetchDeck, addCardToDeck, removeCardFromDeck } from 'deckActions';
 
 import CardSelector from 'components/CardSelector';
 import ProposedCards from 'components/ProposedCards';
+import DeckHistory from 'components/DeckHistory';
 
 type deckEditorProps = {
   deckId: string,
@@ -77,7 +78,7 @@ class DeckEditor extends Component {
           }
         </div>
         <div className="col-4">
-          Card inspector goes here
+          <DeckHistory history={deck ? deck.history : []} />
         </div>
       </div>
     );

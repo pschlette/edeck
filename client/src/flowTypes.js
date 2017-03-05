@@ -14,8 +14,9 @@ export type CardDetails = {
 export type DeckEvent = {
   user: string,
   action: DeckAction,
-  card: CardName,
+  cardName: CardName,
   random: boolean,
+  timestamp: number
 };
 
 export type Deck = {
