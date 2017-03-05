@@ -55,7 +55,7 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      WEBPACK_API_BASE: JSON.stringify(API_BASE || 'localhost:8080'),
+      WEBPACK_API_BASE: JSON.stringify(API_BASE || 'http://localhost:8080'),
     }),
   ].concat(process.env.NODE_ENV === 'production' ? [] : devPlugins),
 };
