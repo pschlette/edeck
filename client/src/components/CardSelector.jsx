@@ -23,7 +23,7 @@ class CardSelector extends React.Component {
     if (selectedCard) this.props.onAddCard(selectedCard);
   }
 
-  handleChangeSelectedCard = e => {
+  handleChangeSelectedCard = (e) => {
     this.setState({ selectedCard: e.target.value });
   }
 
@@ -43,7 +43,7 @@ class CardSelector extends React.Component {
             onChange={this.handleChangeSelectedCard}
           >
             {
-              visibleCardDetails.map(cd => {
+              [{ name: '' }, ...visibleCardDetails].map((cd) => {
                 return (
                   <option
                     key={cd.name}
