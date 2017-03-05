@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import _sortBy from 'lodash/sortBy';
 import type { CardDetails, CardName } from 'flowTypes';
@@ -13,17 +14,18 @@ type cardSelectorState = {
 };
 
 class CardSelector extends React.Component {
-  props: cardSelectorProps
   state: cardSelectorState = {
     selectedCard: null,
   }
+  props: cardSelectorProps
 
   handleAddButtonClick = () => {
     const { selectedCard } = this.state;
     if (selectedCard) this.props.onAddCard(selectedCard);
   }
 
-  handleChangeSelectedCard = (e) => {
+  // we should use some cool Event type instead but i'm too lazy
+  handleChangeSelectedCard = (e: any) => {
     this.setState({ selectedCard: e.target.value });
   }
 
@@ -43,16 +45,14 @@ class CardSelector extends React.Component {
             onChange={this.handleChangeSelectedCard}
           >
             {
-              [{ name: '' }, ...visibleCardDetails].map((cd) => {
-                return (
-                  <option
-                    key={cd.name}
-                    value={cd.name}
-                  >
-                    {cd.name}
-                  </option>
-                );
-              })
+              [null, ...visibleCardDetails].map((cd: ?CardDetails) => (
+                <option
+                  key={cd ? cd.name : 'blank-card'}
+                  value={cd ? cd.name : ''}
+                >
+                  {cd ? cd.name : ''}
+                </option>
+              ))
             }
           </select>
         </div>
