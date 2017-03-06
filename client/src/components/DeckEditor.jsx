@@ -58,7 +58,7 @@ class DeckEditor extends Component {
 
     return (
       <div className="row">
-        <div className="col-8">
+        <div className="col-6">
           {
             cardDetails ? (
               <CardSelector

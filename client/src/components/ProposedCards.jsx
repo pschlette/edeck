@@ -19,11 +19,10 @@ class ProposedCards extends React.Component {
     return (
       <div className="row">
         <div className="col-12">
-          <table className="table">
+          <table className="table table-striped table-hover table-sm">
             <thead>
               <tr>
                 <th>Card</th>
-                <th>Owner</th>
                 <th />
               </tr>
             </thead>
@@ -32,10 +31,9 @@ class ProposedCards extends React.Component {
                 selectedCards.map(card => (
                   <tr key={card}>
                     <td>{card}</td>
-                    <td>???</td>
                     <td>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-sm btn-outline-danger"
                         onClick={() => this.handleRemoveCard(card)}
                       >
                         Remove

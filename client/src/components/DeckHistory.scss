@@ -1,0 +1,27 @@
+.deckHistory {
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+.history-item {
+  composes: list-group-item from global;
+}
+
+.addItem {
+  composes: history-item;
+  composes: list-group-item-success from global;
+}
+
+.removeItem {
+  composes: history-item;
+  composes: list-group-item-danger from global;
+}
+
+.cardName {
+  font-weight: bold;
+}
+
+.user {
+  display: inherit;
+}
