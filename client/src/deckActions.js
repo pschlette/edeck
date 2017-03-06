@@ -20,10 +20,12 @@ export const fetchDeck = (deckId: string): AxiosPromise<Deck> => {
   return axios.get(buildApiUrl(`decks/${deckId}.json`));
 };
 
-export const addCardToDeck = (cardName: CardName, deckId: string): AxiosPromise<Deck> => {
-  return axios.post(buildApiUrl(`decks/${deckId}/add`), { cardName, user: '' });
-};
+export const addCardToDeck =
+  (cardName: CardName, deckId: string, nickname: ?string): AxiosPromise<Deck> => {
+    return axios.post(buildApiUrl(`decks/${deckId}/add`), { cardName, user: nickname });
+  };
 
-export const removeCardFromDeck = (cardName: CardName, deckId: string): AxiosPromise<Deck> => {
-  return axios.post(buildApiUrl(`decks/${deckId}/remove`), { cardName, user: '' });
-};
+export const removeCardFromDeck =
+  (cardName: CardName, deckId: string, nickname: ?string): AxiosPromise<Deck> => {
+    return axios.post(buildApiUrl(`decks/${deckId}/remove`), { cardName, user: nickname });
+  };
