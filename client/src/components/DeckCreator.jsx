@@ -6,21 +6,23 @@ type deckCreatorProps = {
 };
 
 type deckCreatorState = {
-  randomCardsCount: number
+  randomCardsCount: string
 }
 
 export default class DeckCreator extends React.Component {
   state: deckCreatorState = {
-    randomCardsCount: 0,
+    randomCardsCount: '0',
   }
   props: deckCreatorProps
 
   handleRandomCardsCountChange = (event: any) => {
-    this.setState({ randomCardsCount: parseInt(event.target.value, 10) });
+    this.setState({ randomCardsCount: event.target.value });
   }
 
   handleCreateDeck = () => {
-    this.props.onCreateDeck(this.state.randomCardsCount);
+    const parsedCount = parseInt(this.state.randomCardsCount, 10);
+    const randomCardsCount = isNaN(parsedCount) ? 0 : parsedCount;
+    this.props.onCreateDeck(randomCardsCount);
   }
 
   render() {
