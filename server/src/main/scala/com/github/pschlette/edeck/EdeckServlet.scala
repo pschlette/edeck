@@ -29,8 +29,8 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
 
   def getDeckState(deckId: String): Map[String, Any] = {
     val r = createClient()
-    val proposedCardsSet = r.smembers(deckProposedCardsKey(deckId))
-    val proposedCardList = proposedCardsSet.getOrElse(Set()).flatten.toList
+    val proposedCardsSet = r.zrange(deckProposedCardsKey(deckId), 0, -1)
+    val proposedCardList: List[String] = proposedCardsSet.getOrElse(List())
 
     val rawHistoryJson: List[String] = r.lrange(deckHistoryKey(deckId), 0, -1).getOrElse(List()).flatMap(hi => hi)
     val history: List[HistoryItem] = rawHistoryJson.flatMap(hi => parse(hi).extractOpt[HistoryItem])
@@ -70,10 +70,12 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
       else List()
 
     // Add each randomly selected kingdom card to the kingdom and add an anonymous history entry adding it
+    // These cards will all have the same score as far as redis is concerned (since the timestamp is the same),
+    // so they'll be sorted "lexicographically" (alphabetically) by card name. Works 4 me.
     randomKingdomCards.foreach(kingdomCard => {
       val cardName = kingdomCard.name
       val username = "initializer"
-      r.sadd(deckProposedCardsKey(newDeckId), cardName)
+      r.zadd(deckProposedCardsKey(newDeckId), timestamp, cardName)
       val historyEntry = HistoryItem(DeckActions.Add, cardName, username, timestamp, true)
       r.rpush(deckHistoryKey(newDeckId), write(historyEntry))
     })
@@ -97,12 +99,14 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
     val r = createClient()
 
-    maybeChangeRequest.filter(cr => !r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(changeRequest => {
+    val timestamp = System.currentTimeMillis
+
+    maybeChangeRequest.filter(cr => !r.zrank(deckProposedCardsKey(deckId), cr.cardName).isDefined).foreach(changeRequest => {
       // add card to deck
-      r.sadd(deckProposedCardsKey(deckId), changeRequest.cardName)
+      r.zadd(deckProposedCardsKey(deckId), timestamp, changeRequest.cardName)
 
       // add history entry
-      val historyItem = HistoryItem(DeckActions.Add, changeRequest.cardName, changeRequest.user, System.currentTimeMillis, false)
+      val historyItem = HistoryItem(DeckActions.Add, changeRequest.cardName, changeRequest.user, timestamp, false)
       val serializedHistoryItem = write(historyItem)
       r.rpush(deckHistoryKey(deckId), serializedHistoryItem)
 
@@ -120,9 +124,9 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     val maybeChangeRequest = parsedBody.extractOpt[DeckChangeRequest]
     val r = createClient()
 
-    maybeChangeRequest.filter(cr => r.sismember(deckProposedCardsKey(deckId), cr.cardName)).foreach(cr => {
+    maybeChangeRequest.filter(cr => r.zrank(deckProposedCardsKey(deckId), cr.cardName).isDefined).foreach(cr => {
       // remove card from deck
-      r.srem(deckProposedCardsKey(deckId), cr.cardName)
+      r.zrem(deckProposedCardsKey(deckId), cr.cardName)
 
       // add history entry
       val historyItem = HistoryItem(DeckActions.Remove, cr.cardName, cr.user, System.currentTimeMillis, false)
