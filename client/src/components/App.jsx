@@ -30,8 +30,8 @@ export default class App extends React.Component {
     });
   }
 
-  handleCreateDeck = () => {
-    createDeck().then((response) => {
+  handleCreateDeck = (randomCardsCount: number) => {
+    createDeck(randomCardsCount).then((response) => {
       const deckId: string = response.data.id;
       // Add the newly created deck's ID to the page's url so the user can share it
       history.pushState(null, '', `/${deckId}`);

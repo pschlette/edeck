@@ -8,8 +8,8 @@ declare var WEBPACK_API_BASE: string;
 const API_BASE = WEBPACK_API_BASE;
 const buildApiUrl = relativePath => `${API_BASE}/${relativePath}`;
 
-export const createDeck = (): AxiosPromise<Deck> => {
-  return axios.post(buildApiUrl('decks'));
+export const createDeck = (randomCardsCount: number): AxiosPromise<Deck> => {
+  return axios.post(buildApiUrl('decks'), { randoCount: randomCardsCount });
 };
 
 export const fetchKingdomCards = (): AxiosPromise<Array<CardDetails>> => {
