@@ -22,14 +22,13 @@ object KingdomCardSeeder {
       case _ => None
     }
 
-    // Serialize and insert each kingdom card into a list in redis
-    // 6379 is redis' default port
+    // Serialize and insert each kingdom card into a set in redis
     val r = RedisHelpers.createClient()
     val kingdomCardsKey = RedisHelpers.KingdomCardsKey
     r.del(kingdomCardsKey)
     val safeKingdomCards = kingdomCards.getOrElse(List[KingdomCard]())
     for (card <- safeKingdomCards)
-      r.rpush(kingdomCardsKey, write(card))
+      r.sadd(kingdomCardsKey, write(card))
 
     println(s"Cleared existing kingdom card data and inserted ${safeKingdomCards.length} cards into redis instance at key '${kingdomCardsKey}'")
   }

@@ -1,5 +1,6 @@
 package com.github.pschlette.edeck
 
+import scala.util.Try
 import java.util.UUID
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
@@ -42,14 +43,15 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
   get("/cards") {
     contentType = formats("json")
     val r = createClient()
-    val rawCards = r.lrange(KingdomCardsKey, 0, -1).getOrElse(List())
+    val rawCards: Set[Option[String]] = r.smembers(KingdomCardsKey).getOrElse(Set())
     // The kingdom cards are stored as serialized JSON blobs, so we'll need to parse them into
     // JSON (before promptly re-serializing them to send over the wire...)
-    rawCards.flatMap(_.map(parse(_)))
+    rawCards.flatMap(_.map(someRawCard => parse(someRawCard)))
   }
 
   // create a new deck and redirect user to webpage showing it
   post("/decks") {
+    val randoCount = Try(params("randoCount").toInt).toOption.getOrElse(0)
     val newDeckId = UUID.randomUUID.toString
     val timestamp = System.currentTimeMillis
 
@@ -59,6 +61,22 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
     // archive all the really old decks...or something.
     val r = createClient()
     r.set(deckTimestampKey(newDeckId), timestamp)
+
+    val randomKingdomCards: List[KingdomCard] =
+      if (randoCount > 0) {
+        val rawCards: List[Option[String]] = r.srandmember(KingdomCardsKey, randoCount).getOrElse(List())
+        rawCards.flatMap(maybeRawCard => maybeRawCard.flatMap(parse(_).extractOpt[KingdomCard]))
+      }
+      else List()
+
+    // Add each randomly selected kingdom card to the kingdom and add an anonymous history entry adding it
+    randomKingdomCards.foreach(kingdomCard => {
+      val cardName = kingdomCard.name
+      val username = "initializer"
+      r.sadd(deckProposedCardsKey(newDeckId), cardName)
+      val historyEntry = HistoryItem(DeckActions.Add, cardName, username, timestamp, true)
+      r.rpush(deckHistoryKey(newDeckId), write(historyEntry))
+    })
 
     contentType = formats("json")
     getDeckState(newDeckId)
