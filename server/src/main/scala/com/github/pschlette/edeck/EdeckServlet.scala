@@ -51,7 +51,7 @@ class EdeckServlet extends EdeckStack with JacksonJsonSupport with CorsSupport  
 
   // create a new deck and redirect user to webpage showing it
   post("/decks") {
-    val randoCount = Try(params("randoCount").toInt).toOption.getOrElse(0)
+    val randoCount: Int = parse(request.body).extract[Map[String, Int]].get("randoCount").getOrElse(0)
     val newDeckId = UUID.randomUUID.toString
     val timestamp = System.currentTimeMillis
 
