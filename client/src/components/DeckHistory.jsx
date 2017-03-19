@@ -14,7 +14,7 @@ const renderDeckEvent = (de: DeckEvent) => {
   const glueText = ` ${de.random ? 'randomly' : ''} ${verbed} by `;
   const itemClass = de.action === DeckActions.ADD ? styles.addItem : styles.removeItem;
   return (
-    <li className={itemClass} key={de.timestamp}>
+    <li className={itemClass} key={`${de.cardName}-${de.timestamp}`}>
       <span className={styles.cardName}>{de.cardName}&nbsp;</span>
       <span>{glueText}</span>
       <span className={styles.user}>&nbsp;{user}</span>
